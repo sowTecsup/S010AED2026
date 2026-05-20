@@ -3,118 +3,121 @@
 using System;
 using UnityEngine;
 
-public class LinkedList<T> : MonoBehaviour
+namespace Sowtank.Collections
 {
-    public Node<T> head = null;
-    public int Count;
-
-
-    //->O(N)
-    public virtual void Add(T value)
+    public class LinkedList<T> : MonoBehaviour
     {
-        Node<T> tempNode = new(value);
+        public Node<T> head = null;
+        public int Count;
 
-        //-> Cuando no hay nuingun elemento en la lista
-        if (head == null)
-        {
-            head = tempNode;
-        }
-        else
-        {
-            Node<T> Evaluator = head;
 
-            while (Evaluator.Next != null)
+        //->O(N)
+        public virtual void Add(T value)
+        {
+            Node<T> tempNode = new(value);
+
+            //-> Cuando no hay nuingun elemento en la lista
+            if (head == null)
             {
-                Evaluator = Evaluator.Next;
+                head = tempNode;
             }
-
-            Evaluator.SetNext(tempNode);
-
-        }
-        Count++;
-    }
-
-    //->O(n)
-    public void RemoveLast()
-    {
-
-        Node<T> Evaluator = head;
-
-        if (Count == 0)
-        {
-            Debug.Log("La lista esta vacia");
-            return;
-        }
-        else if (Count == 1)
-        {
-            head = null;
-            Count--;
-        }
-        else if (Count == 2)
-        {
-            head.SetNext(null);
-            Count--;
-        }
-        else if (Count > 2)
-        {
-            while (Evaluator != null)
+            else
             {
-                if (Evaluator.Next.Next == null)
+                Node<T> Evaluator = head;
+
+                while (Evaluator.Next != null)
                 {
-                    break;
+                    Evaluator = Evaluator.Next;
                 }
 
-                Evaluator = Evaluator.Next;
+                Evaluator.SetNext(tempNode);
+
+            }
+            Count++;
+        }
+
+        //->O(n)
+        public void RemoveLast()
+        {
+
+            Node<T> Evaluator = head;
+
+            if (Count == 0)
+            {
+                Debug.Log("La lista esta vacia");
+                return;
+            }
+            else if (Count == 1)
+            {
+                head = null;
+                Count--;
+            }
+            else if (Count == 2)
+            {
+                head.SetNext(null);
+                Count--;
+            }
+            else if (Count > 2)
+            {
+                while (Evaluator != null)
+                {
+                    if (Evaluator.Next.Next == null)
+                    {
+                        break;
+                    }
+
+                    Evaluator = Evaluator.Next;
+                }
+
+                Evaluator.SetNext(null);
+                Count--;
             }
 
-            Evaluator.SetNext(null);
+        }
+        //-> O(1)
+        public void RemoveFirst()
+        {
+
+            if (Count <= 1)
+            {
+                head = null;
+                Count--;
+                return;
+            }
+
+            Node<T> Evaluator = head.Next;
+            head.SetNext(null);
+            head = Evaluator;
             Count--;
+
+
         }
 
-    }
-    //-> O(1)
-    public void RemoveFirst()
-    {
 
-        if (Count <= 1)
+        // Recorrer
+        public void Traverse(Action<Node<T>> action)
         {
-            head = null;
-            Count--;
-            return;
+            Node<T> Evaluator = head;
+            while (Evaluator != null)
+            {
+                //  Debug.Log(Evaluator.Value);
+                action(Evaluator);
+
+                Evaluator = Evaluator.Next;
+            }
         }
-
-        Node<T> Evaluator = head.Next;
-        head.SetNext(null);
-        head = Evaluator;
-        Count--;
-
-
-    }
-
-
-    // Recorrer
-    public void Traverse(Action<Node<T>> action)
-    {
-        Node<T> Evaluator = head;
-        while (Evaluator != null)
+        public void RecursiveTraverse(Node<T> Evaluator, Action<Node<T>> action)
         {
-            //  Debug.Log(Evaluator.Value);
+            if (Evaluator == null)
+            {
+                Debug.Log("Terminas de recorrer la lista");
+                return;
+            }
+
             action(Evaluator);
 
-            Evaluator = Evaluator.Next;
-        }
-    }
-    public void RecursiveTraverse(Node<T> Evaluator  ,Action<Node<T>> action )
-    {
-        if (Evaluator == null)
-        {
-            Debug.Log("Terminas de recorrer la lista");
-            return;
+            RecursiveTraverse(Evaluator.Next, action);
         }
 
-        action(Evaluator);
-
-        RecursiveTraverse(Evaluator.Next,action);
     }
-
 }

@@ -29,6 +29,10 @@ namespace Sowtank.Collections.Graphs
         {
             a.Connect(b);
         }
+        public void AddEdges(int posA, int posB)
+        {
+            nodes[posA].Connect(nodes[posB]);
+        }
         public void DeleteEdges(Node<T> a, Node<T> b)
         {
             a.Disconnect(b);
@@ -60,8 +64,9 @@ namespace Sowtank.Collections.Graphs
 
             for (var i = 0;i < nodes.Count;i++)
             {
-                context += i + "    ";
+                context += i + "     ";
             }
+            context += "\n";
             for (var i = 0;i< nodes.Count ; i++)
             {
                 context += i + "    ";//\n

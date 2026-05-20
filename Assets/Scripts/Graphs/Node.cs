@@ -16,16 +16,18 @@ namespace Sowtank.Collections.Graphs
 
         public void Connect(Node<T> node)//->bidireccional
         {
-            if(!neighbors.Contains(node))
-                neighbors.Add(node); 
-            node.Connect(this);
+            if (!neighbors.Contains(node))
+            {
+                neighbors.Add(node);
+            }
+            node.neighbors.Add(this);
         }
         public void Disconnect(Node<T> node)//> bidireccional
         {
             if (neighbors.Contains(node))
                 neighbors.Remove(node);
 
-            node.Disconnect(this);
+            node.neighbors.Remove(this);
         }
 
         public T Value => value;
